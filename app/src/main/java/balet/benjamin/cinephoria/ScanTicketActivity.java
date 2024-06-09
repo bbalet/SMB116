@@ -71,6 +71,10 @@ public class ScanTicketActivity extends AppCompatActivity {
             if (result.getContents() != null) {
                 // QR code content is available
                 this.txtQRCodeStatus.setText("QR Code Content: " + result.getContents());
+                // TODO : vérifier si on est connecté à internet
+                // https://www.tutlane.com/tutorial/android/android-internet-connection-status-with-examples#:~:text=Check%20Internet%20Connection%20Status,connection%20is%20available%20or%20not.
+                //  Afficher les infos brutes
+                // Vérifier si le QR Code est valide avec requête API
                 // You can now use the result.getContents() to process the QR code data
             } else {
                 // QR code scan failed

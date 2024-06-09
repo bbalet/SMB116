@@ -23,7 +23,7 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Scanner de ticket"
+                android:text="Scanneur de ticket"
                 android:textAlignment="center"
                 android:textSize="34sp" />
         </LinearLayout>
@@ -36,10 +36,16 @@
             <EditText
                 android:id="@+id/txtQRCodeStatus"
                 android:layout_width="match_parent"
-                android:layout_height="211dp"
+                android:layout_height="229dp"
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                app:srcCompat="@drawable/code_qr" />
         </LinearLayout>
 
         <LinearLayout

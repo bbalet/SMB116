@@ -102,13 +102,9 @@ public class TheatersAroundActivity extends AppCompatActivity implements OnMapRe
                 if (location != null) {
                     LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15));
-                    fetchTheaters(userLatLng.latitude, userLatLng.longitude);
+                    //fetchTheaters(userLatLng.latitude, userLatLng.longitude);
                 }
             }
         });
-    }
-
-    private void fetchTheaters(double latitude, double longitude) {
-        new FetchTheatersTask().execute(latitude, longitude);
     }
 }

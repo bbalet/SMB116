@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context=".LoginActivity">
+    tools:context=".MyTicketsActivity">
 
     <LinearLayout
         android:layout_width="409dp"
@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Connexion"
+                        android:text="Mes tickets"
                         android:textAlignment="center"
                         android:textSize="34sp" />
                 </LinearLayout>
@@ -59,46 +59,22 @@
             android:layout_height="65dp"
             android:orientation="vertical">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/txtLogin"
+            <TextView
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="email de connexion"
-                android:textSize="18sp" />
+                android:text="Cliquez sur un ticket pour faire apparaître son QR Code" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:orientation="vertical">
+            android:layout_height="462dp"
+            android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/txtPassword"
+            <ListView
+                android:id="@+id/lstTickets"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="mot de passe"
-                android:inputType="textPassword" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/cmdConnect"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Se connecter"
-                android:visibility="visible" />
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <LinearLayout

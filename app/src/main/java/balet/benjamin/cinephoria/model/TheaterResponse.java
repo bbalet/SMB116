@@ -1,17 +1,17 @@
-package balet.benjamin.cinephoria;
+package balet.benjamin.cinephoria.model;
 
 import java.util.List;
 
-public class TheaterResponse {
-    private List<Theater> theaters;
+import balet.benjamin.cinephoria.api.Theater;
 
-    public List<Theater> getTheaters() {
+public class TheaterResponse {
+    public List<Theater> theaters;
+
+    /*public List<Theater> getTheaters() {
         return theaters;
     }
 
     public void setTheaters(List<Theater> theaters) {
         this.theaters = theaters;
-    }
-
-
+    }*/
 }
