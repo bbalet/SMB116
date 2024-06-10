@@ -1,10 +1,8 @@
 package balet.benjamin.cinephoria;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -20,7 +18,6 @@ import balet.benjamin.cinephoria.api.APIClient;
 import balet.benjamin.cinephoria.api.CinephoriaAPI;
 import balet.benjamin.cinephoria.model.TicketListResponse;
 import balet.benjamin.cinephoria.model.TicketResponse;
-import balet.benjamin.cinephoria.model.UserInfoResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +40,7 @@ public class MyTicketsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        cmdCloseTicketsActivity = findViewById(R.id.cmdCloseTicketsActivity);
+        cmdCloseTicketsActivity = findViewById(R.id.cmdCloseShowQRActivity);
         lstTickets = findViewById(R.id.lstTickets);
         cmdCloseTicketsActivity.setOnClickListener(v -> finish());
         apiInterface = APIClient.getClient().create(CinephoriaAPI.class);
@@ -62,7 +59,7 @@ public class MyTicketsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<TicketListResponse> call, Response<TicketListResponse> response) {
                 List<TicketResponse> tickets = response.body().getTickets();
-                adapter = new TicketAdapter(getApplicationContext(), tickets);
+                adapter = new TicketAdapter(MyTicketsActivity.this, tickets);
                 lstTickets.setAdapter(adapter);
             }
 

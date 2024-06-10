@@ -60,7 +60,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/txtTicketDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cliquez sur un ticket pour faire apparaître son QR Code" />
@@ -83,7 +83,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/cmdCloseTicketsActivity"
+                android:id="@+id/cmdCloseShowQRActivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fermer" />

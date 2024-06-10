@@ -1,6 +1,7 @@
 package balet.benjamin.cinephoria;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,14 @@ public class TicketAdapter extends BaseAdapter {
         TicketResponse ticket = tickets.get(position);
         titleTextView.setText(ticket.getMovieTitle());
         startTimeTextView.setText(ticket.getStartDate().toString());
+
+        // Gestion du clic sur l'élément de la liste
+        convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ShowTicketQRCodeActivity.class);
+            intent.putExtra("ticketId", ticket.getTicketId());
+            context.startActivity(intent);
+        });
+
         return convertView;
     }
 }

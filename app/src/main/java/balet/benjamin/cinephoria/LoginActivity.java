@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
         cmdConnect = (Button) findViewById(R.id.cmdConnect);
-        cmdCancelLogin = (Button) findViewById(R.id.cmdCloseTicketsActivity);
+        cmdCancelLogin = (Button) findViewById(R.id.cmdCloseShowQRActivity);
         txtLogin = findViewById(R.id.txtLogin);
         txtPassword = findViewById(R.id.txtPassword);
         cmdConnect.setOnClickListener(this::onClickConnect);
