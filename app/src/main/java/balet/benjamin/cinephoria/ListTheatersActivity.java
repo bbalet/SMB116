@@ -40,7 +40,7 @@ public class ListTheatersActivity extends AppCompatActivity {
         });
 
         cmdCloseListTheatersActivity = findViewById(R.id.cmdCloseListTheatersActivity);
-        lstTheaters = findViewById(R.id.lstRooms);
+        lstTheaters = findViewById(R.id.lstIssues);
         cmdCloseListTheatersActivity.setOnClickListener(v -> finish());
         apiInterface = APIClient.getClient().create(CinephoriaAPI.class);
         getTheaters();

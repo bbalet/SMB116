@@ -1,5 +1,6 @@
 package balet.benjamin.cinephoria.api;
 
+import balet.benjamin.cinephoria.model.IssueListResponse;
 import balet.benjamin.cinephoria.model.IssueRequest;
 import balet.benjamin.cinephoria.model.IssueResponse;
 import balet.benjamin.cinephoria.model.LoginResponse;
@@ -27,7 +28,6 @@ public interface CinephoriaAPI {
      * @param longitude
      * @return
      */
-    //@Headers({"Accept: application/json", "Content-Type: application/json"})
     @GET("api/theaters")
     Call<TheaterListResponse> getTheaters(@Query("latitude") double latitude, @Query("longitude") double longitude);
 
@@ -44,7 +44,6 @@ public interface CinephoriaAPI {
      * @param theaterId identifiant du cinéma
      * @return
      */
-    //@Headers({"Accept: application/json", "Content-Type: application/json"})
     @GET("api/rooms")
     Call<RoomListResponse> getRooms(@Header("Authorization") String token, @Query("theaterId") int theaterId);
 
@@ -54,9 +53,8 @@ public interface CinephoriaAPI {
      * @param roomId identifiant de la salle
      * @return
      */
-    //@Headers({"Accept: application/json", "Content-Type: application/json"})
     @GET("api/issues")
-    Call<IssueResponse> getIssues(@Header("Authorization") String token, @Query("roomId") int roomId);
+    Call<IssueListResponse> getIssues(@Header("Authorization") String token, @Query("roomId") int roomId);
 
     /**
      * Obtenir un problème depuis son identifiant
@@ -64,7 +62,6 @@ public interface CinephoriaAPI {
      * @param issueId
      * @return
      */
-    //@Headers({"Accept: application/json", "Content-Type: application/json"})
     @GET("api/issues/{issueId}")
     Call<IssueResponse> getIssue(@Header("Authorization") String token, @Path("issueId") int issueId);
 
@@ -85,7 +82,7 @@ public interface CinephoriaAPI {
      * @param issue problème à modifier
      * @return Problème modifié
      */
-    @Headers({"Accept: application/json", "Content-Type: application/json"})
+    @Headers({"Accept: application/json", "Content-Type: application/merge-patch+json"})
     @PATCH("api/issues/{roomId}")
     Call<IssueResponse> updateIssue(@Header("Authorization") String token, @Path("roomId") int roomId, @Body IssueRequest issue);
 

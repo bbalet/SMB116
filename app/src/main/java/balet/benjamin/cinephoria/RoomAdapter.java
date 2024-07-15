@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import balet.benjamin.cinephoria.model.RoomResponse;
 
@@ -47,7 +48,7 @@ public class RoomAdapter extends BaseAdapter {
 
         // Gestion du clic sur l'élément de la liste
         convertView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, CrudIssueActivity.class);
+            Intent intent = new Intent(context, ListIssuesActivity.class);
             intent.putExtra("roomId", roomResponse.getRoomId());
             context.startActivity(intent);
         });

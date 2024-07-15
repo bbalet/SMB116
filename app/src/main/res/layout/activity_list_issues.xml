@@ -7,4 +7,99 @@
     android:layout_height="match_parent"
     tools:context=".ListIssuesActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="409dp"
+            android:layout_height="729dp"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="78dp"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="108dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/logo" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Liste des problèmes"
+                            android:textAlignment="center"
+                            android:textSize="34sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtTheaterDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cliquez sur un problème pour le modifier" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="399dp"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/lstIssues"
+                    android:layout_width="match_parent"
+                    android:layout_height="386dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/cmdAddNewIssue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ajouter un problème" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/cmdCloseListIssuesActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fermer" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

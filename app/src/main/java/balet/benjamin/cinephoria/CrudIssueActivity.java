@@ -1,6 +1,7 @@
 package balet.benjamin.cinephoria;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,6 +58,9 @@ public class CrudIssueActivity extends AppCompatActivity {
         this.cmdEditIssueAction = findViewById(R.id.cmdEditIssueAction);
         this.cmdCloseEditIssueActivity = findViewById(R.id.cmdCloseEditIssueActivity);
         this.cmdCloseEditIssueActivity.setOnClickListener(v -> finish());
+        this.cmdEditIssueAction.setOnClickListener(this::onClickEditIssueAction);
+
+        apiInterface = APIClient.getClient().create(CinephoriaAPI.class);
 
         // Charger le spinner avec les statuses (fichier XML statique)
         this.adapter = ArrayAdapter.createFromResource(
@@ -72,8 +76,14 @@ public class CrudIssueActivity extends AppCompatActivity {
         this.issueId = getIntent().getIntExtra("issueId", -1);
         this.ISSUE_FORM_MODE = getIntent().getStringExtra("ISSUE_FORM_MODE");
         Log.i(TAG, "onCreate: issueId=" + issueId + " mode=" + ISSUE_FORM_MODE);
-        if (this.ISSUE_FORM_MODE.equals("UPDATE"))
+        if (this.ISSUE_FORM_MODE.equals("UPDATE")) {
+            this.txtIssueActivityTitle.setText("Modifier un problème");
+            this.cmdEditIssueAction.setText("Modifier");
             loadIssue();
+        } else {
+            this.txtIssueActivityTitle.setText("Nouveau problème");
+            this.cmdEditIssueAction.setText("Créer");
+        }
     }
 
     /**
@@ -101,7 +111,7 @@ public class CrudIssueActivity extends AppCompatActivity {
     }
 
     /**
-     * Créer ou modifier un problème
+     * Créer ou modifier un problème. Broadcaster le changement
      * @param v
      */
     public void onClickEditIssueAction(View v) {
@@ -128,6 +138,7 @@ public class CrudIssueActivity extends AppCompatActivity {
                     }
                 });
         } else {
+            issueRequest.setIssueId(this.issueId);
             Call<IssueResponse> call = apiInterface.updateIssue("Bearer " + token, this.roomId, issueRequest);
             call.enqueue(new Callback<IssueResponse>() {
                 @Override
@@ -142,5 +153,9 @@ public class CrudIssueActivity extends AppCompatActivity {
                 }
             });
         }
+
+        //Envoyer l'évènement de changement d'état
+        Intent intent = new Intent("balet.benjamin.cinephoria.UPDATE_ISSUES_LIST");
+        sendBroadcast(intent);
     }
 }

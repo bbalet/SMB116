@@ -141,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
         editor.remove("firstname");
         editor.remove("lastname");
         editor.commit();
-        cmdLogin.setVisibility(View.VISIBLE);
-        cmdLogout.setVisibility(View.INVISIBLE);
+        restoreUserInfo();
     }
 
     /**

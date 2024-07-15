@@ -83,18 +83,6 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/cmdAddNewIssue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ajouter un problème" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
-                android:orientation="vertical">
-
-                <Button
                     android:id="@+id/cmdCloseListTRoomsActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

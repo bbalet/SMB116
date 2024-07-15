@@ -49,6 +49,7 @@ public class IssueAdapter extends BaseAdapter {
         // Gestion du clic sur l'élément de la liste
         convertView.setOnClickListener(v -> {
             Intent intent = new Intent(context, CrudIssueActivity.class);
+            intent.putExtra("ISSUE_FORM_MODE", "UPDATE");
             intent.putExtra("issueId", issueResponse.getIssueId());
             context.startActivity(intent);
         });

@@ -47,7 +47,7 @@ public class TheaterAdapter extends BaseAdapter {
 
         // Gestion du clic sur l'élément de la liste
         convertView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ShowTicketQRCodeActivity.class);
+            Intent intent = new Intent(context, ListRoomsActivity.class);
             intent.putExtra("theaterId", theaterResponse.getTheaterId());
             context.startActivity(intent);
         });

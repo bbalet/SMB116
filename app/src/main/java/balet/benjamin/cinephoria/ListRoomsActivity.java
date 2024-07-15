@@ -23,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListRoomsActivity extends AppCompatActivity {
-    private Button cmdCloseListTRoomsActivity, cmdAddNewIssue;
+    private Button cmdCloseListTRoomsActivity;
     private ListView lstRooms;
     private RoomAdapter adapter;
     private CinephoriaAPI apiInterface;
@@ -42,8 +42,8 @@ public class ListRoomsActivity extends AppCompatActivity {
             return insets;
         });
         apiInterface = APIClient.getClient().create(CinephoriaAPI.class);
-        this.cmdAddNewIssue = findViewById(R.id.cmdAddNewIssue);
         this.cmdCloseListTRoomsActivity = findViewById(R.id.cmdCloseListTRoomsActivity);
+        cmdCloseListTRoomsActivity.setOnClickListener(v -> finish());
         this.lstRooms = findViewById(R.id.lstRooms);
         this.theaterId = getIntent().getIntExtra("theaterId", -1);
         getRooms();
