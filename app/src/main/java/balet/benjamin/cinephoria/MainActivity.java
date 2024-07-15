@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private Button cmdTheatersAroundMe, cmdScanTicket, cmdMyTickets, cmdLogin, cmdLogout, cmdClose;
     private TextView txtUserInfo;
     private SharedPreferences sharedPreferences;
+    String role = "ROLE_USER";
 
     /**
      * Permet d'ouvrir la page de login et de récupérer les infos de l'utilisateur
@@ -64,18 +65,19 @@ public class MainActivity extends AppCompatActivity {
         String token = sharedPreferences.getString("token", null);
         if (!JWTTokenUtils.isTokenExpired(token)) {
             //Contexte : l'utilisateur est connecté
-            String role = sharedPreferences.getString("role", null);
+            this.role = sharedPreferences.getString("role", null);
             String firstname = sharedPreferences.getString("firstname", null);
             String lastname = sharedPreferences.getString("lastname", null);
             txtUserInfo.setText("Bonjour " + firstname + " " + lastname + " !");
             cmdLogin.setVisibility(View.INVISIBLE);
             cmdLogout.setVisibility(View.VISIBLE);
-            if (role.equals("ROLE_EMPLOYEE")) {
+            cmdMyTickets.setVisibility(View.VISIBLE);
+            if (this.role.equals("ROLE_EMPLOYEE")) {
                 cmdScanTicket.setVisibility(View.VISIBLE);
-                cmdMyTickets.setVisibility(View.INVISIBLE);
+                cmdMyTickets.setText("Gérer les incidents");
             } else {
                 cmdScanTicket.setVisibility(View.INVISIBLE);
-                cmdMyTickets.setVisibility(View.VISIBLE);
+                cmdMyTickets.setText("Mes tickets");
             }
         } else {
             //Contexte : l'utilisateur est déconnecté
@@ -106,12 +108,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Ouvrir l'activité listant les tickets de l'utilisateur
+     * Ouvrir l'activité listant les tickets de l'utilisateur ou les incidents
      * @param v
      */
     public void onClickOpenMyTickets(View v) {
-        Intent intent = new Intent(MainActivity.this, MyTicketsActivity.class);
-        MainActivity.this.startActivity(intent);
+        if (this.role.equals("ROLE_EMPLOYEE")) {
+            Intent intent = new Intent(MainActivity.this, ListTheatersActivity.class);
+            MainActivity.this.startActivity(intent);
+        } else {
+            Intent intent = new Intent(MainActivity.this, MyTicketsActivity.class);
+            MainActivity.this.startActivity(intent);
+        }
     }
 
     /**

@@ -5,7 +5,9 @@ import android.os.Bundle;
 
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Looper;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,10 +30,23 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
-public class TheatersAroundActivity extends AppCompatActivity implements OnMapReadyCallback {
+import balet.benjamin.cinephoria.api.APIClient;
+import balet.benjamin.cinephoria.model.TheaterResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    private GoogleMap mMap;
-    private FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+import balet.benjamin.cinephoria.api.CinephoriaAPI;
+import balet.benjamin.cinephoria.model.TheaterListResponse;
+
+public class TheatersAroundActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private Button cmdCloseTheatersAroundActivity;
+    //private SupportMapFragment mapView;
+    GoogleMap mapView;
+    private FusedLocationProviderClient locationClient;
+    private LocationRequest locationRequest;
+    private CinephoriaAPI apiInterface;
+    private final String TAG = this.getClass().getSimpleName();
 
 
     @Override
@@ -45,35 +60,34 @@ public class TheatersAroundActivity extends AppCompatActivity implements OnMapRe
             return insets;
         });
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
+        mapFragment.getMapAsync(this);
 
-        /*LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000); // Update every 10 seconds
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        cmdCloseTheatersAroundActivity = (Button) findViewById(R.id.cmdCloseTheatersAroundActivity);
+        cmdCloseTheatersAroundActivity.setOnClickListener(this::onClickClose);
 
-        fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
-                    if (location != null) {
-                        // Got last known location. In this case, you can use location.getLatitude() and location.getLongitude()
-                    } else {
-                        // No location available, start location updates
-                        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-                    }
-                })
-                .addOnFailureListener(this, e -> {
-                    // Handle location errors
-                });*/
+        apiInterface = APIClient.getClient().create(CinephoriaAPI.class);
+
+        locationClient = LocationServices.getFusedLocationProviderClient(this);
+        locationClient.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+            }
+        });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
+        mapView = googleMap;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return;
         }
-
-        getDeviceLocation();
+        getTheaters();
+        //Par défaut, centrer sur Paris
+        LatLng userLatLng = new LatLng(48.866667, 2.333333);
+        mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 11));
     }
 
     @Override
@@ -85,26 +99,45 @@ public class TheatersAroundActivity extends AppCompatActivity implements OnMapRe
         }
     }
 
-    /*@Override
-    protected void onPostExecute(List<Theater> theaters) {
-        super.onPostExecute(theaters);
-        for (Theater theater : theaters) {
-            LatLng theaterLocation = new LatLng(theater.getLatitude(), theater.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(theaterLocation).title(theater.getCity()));
-        }
-    }*/
-
     private void getDeviceLocation() {
-        Task<Location> locationResult = fusedLocationClient.getLastLocation();
+        Task<Location> locationResult = locationClient.getLastLocation();
         locationResult.addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
+                    Log.i(TAG, "getDeviceLocation: Latitude=" + location.getLatitude() + " Longitude=" + location.getLongitude());
                     LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15));
-                    //fetchTheaters(userLatLng.latitude, userLatLng.longitude);
+                    mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 11));
                 }
             }
         });
+    }
+
+    /**
+     * Afficher tous les cinémas sur la carte (il n'y en a que quelques uns)
+     */
+    private void getTheaters() {
+        Call<TheaterListResponse> call = apiInterface.getTheaters();
+        call.enqueue(new Callback<TheaterListResponse>() {
+            @Override
+            public void onResponse(Call<TheaterListResponse> call, Response<TheaterListResponse> response) {
+                List<TheaterResponse> theaterResponses = response.body().getTheaters();
+                Log.i(TAG, "AddMarker: Nbe cinémas=" + theaterResponses.size());
+                for (TheaterResponse theaterResponse : theaterResponses) {
+                    LatLng position = new LatLng(theaterResponse.latitude, theaterResponse.longitude);
+                    Log.i(TAG, "AddMarker: Latitude=" + theaterResponse.getLatitude() + " Longitude=" + theaterResponse.getLongitude());
+                    mapView.addMarker(new MarkerOptions().position(position).title(theaterResponse.city));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TheaterListResponse> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
+    public void onClickClose(View v) {
+        finish();
     }
 }

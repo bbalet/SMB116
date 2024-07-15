@@ -1,7 +1,6 @@
 package balet.benjamin.cinephoria;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -46,7 +45,7 @@ public class ShowTicketQRCodeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        cmdCloseShowQRActivity = findViewById(R.id.cmdCloseShowQRActivity);
+        cmdCloseShowQRActivity = findViewById(R.id.cmdCloseTheatersAroundActivity);
         txtTicketDetail = findViewById(R.id.txtTicketDetail);
         imgQRCodeTicket = findViewById(R.id.imgQRCodeTicket);
         cmdCloseShowQRActivity.setOnClickListener(v -> finish());

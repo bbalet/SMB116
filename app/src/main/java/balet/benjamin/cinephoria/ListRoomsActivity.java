@@ -16,55 +16,53 @@ import java.util.List;
 
 import balet.benjamin.cinephoria.api.APIClient;
 import balet.benjamin.cinephoria.api.CinephoriaAPI;
-import balet.benjamin.cinephoria.model.TicketListResponse;
-import balet.benjamin.cinephoria.model.TicketResponse;
+import balet.benjamin.cinephoria.model.RoomListResponse;
+import balet.benjamin.cinephoria.model.RoomResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyTicketsActivity extends AppCompatActivity {
-
-    private Button cmdCloseTicketsActivity;
-    private ListView lstTickets;
-    private TicketAdapter adapter;
+public class ListRoomsActivity extends AppCompatActivity {
+    private Button cmdCloseListTRoomsActivity, cmdAddNewIssue;
+    private ListView lstRooms;
+    private RoomAdapter adapter;
     private CinephoriaAPI apiInterface;
     private final String TAG = this.getClass().getSimpleName();
+    private SharedPreferences sharedPreferences;
+    private int theaterId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_my_tickets);
+        setContentView(R.layout.activity_list_room);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        cmdCloseTicketsActivity = findViewById(R.id.cmdCloseTheatersAroundActivity);
-        lstTickets = findViewById(R.id.lstTickets);
-        cmdCloseTicketsActivity.setOnClickListener(v -> finish());
         apiInterface = APIClient.getClient().create(CinephoriaAPI.class);
-        getMyTickets();
+        this.cmdAddNewIssue = findViewById(R.id.cmdAddNewIssue);
+        this.cmdCloseListTRoomsActivity = findViewById(R.id.cmdCloseListTRoomsActivity);
+        this.lstRooms = findViewById(R.id.lstRooms);
+        this.theaterId = getIntent().getIntExtra("theaterId", -1);
+        getRooms();
     }
 
-    /**
-     * Obtenir le token stocké dans les shared preferences et appeler l'API pour récupérer les tickets
-     * @param token
-     */
-    private void getMyTickets() {
+    private void getRooms() {
         SharedPreferences sharedPreferences = this.getSharedPreferences("cinephoriaPrefs", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
-        Call<TicketListResponse> call = apiInterface.getTickets("Bearer " + token);
-        call.enqueue(new Callback<TicketListResponse>() {
+        Call<RoomListResponse> call = apiInterface.getRooms("Bearer " + token, this.theaterId);
+        call.enqueue(new Callback<RoomListResponse>() {
             @Override
-            public void onResponse(Call<TicketListResponse> call, Response<TicketListResponse> response) {
-                List<TicketResponse> tickets = response.body().getTickets();
-                adapter = new TicketAdapter(MyTicketsActivity.this, tickets);
-                lstTickets.setAdapter(adapter);
+            public void onResponse(Call<RoomListResponse> call, Response<RoomListResponse> response) {
+                List<RoomResponse> roomsResponses = response.body().getRooms();
+                adapter = new RoomAdapter(ListRoomsActivity.this, roomsResponses);
+                lstRooms.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<TicketListResponse> call, Throwable t) {
+            public void onFailure(Call<RoomListResponse> call, Throwable t) {
                 call.cancel();
             }
         });

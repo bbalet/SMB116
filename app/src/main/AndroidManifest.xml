@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -17,7 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cinephoria"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".ListIssuesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CrudIssueActivity"
+            android:exported="false" />
         <activity
             android:name=".ShowTicketQRCodeActivity"
             android:exported="false" />
@@ -28,7 +34,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ListRoomActivity"
+            android:name=".ListRoomsActivity"
             android:exported="false" />
         <activity
             android:name=".ListTheatersActivity"
@@ -41,7 +47,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,7 +57,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@apikeys/google_maps_key" />
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>
